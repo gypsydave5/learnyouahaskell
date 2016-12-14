@@ -113,3 +113,15 @@ last' = foldr1 (\_ acc -> acc)
 and' :: [Bool] -> Bool
 and' = foldr (&&) True
 
+-- Point-freestyler
+
+-- apparently this is how I write functions anyway...
+
+point x = ceiling (negate (tan (cos (max 50 x))))
+noPoint = ceiling . negate . tan . cos . max 50
+
+oddSquareSum :: Integer
+oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+oddSquareSum' :: Integer
+oddSquareSum' = sum . takeWhile (<10000) . filter odd $ map (^2) [1..]
