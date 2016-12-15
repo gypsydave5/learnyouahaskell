@@ -113,6 +113,30 @@ last' = foldr1 (\_ acc -> acc)
 and' :: [Bool] -> Bool
 and' = foldr (&&) True
 
+
+-- SCANNING
+sqrtSums :: Int
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..])))+ 1
+
+-- DOLLAR DOLLAR function application operator to you
+($~) :: (a -> b) -> a -> b
+f $~ x = f x
+
+-- has low precedence, avoids parens
+dollarEg = sum (filter (> 10) (map (*2) [2..10]))
+dollarEg' = sum $ filter (> 10) (map (*2) [2..10])
+dollarEg'' = sum $ filter (> 10) $ map (*2) [2..10]
+
+-- can reduce application to just another function
+dollarEg2 = map ($ 3) [(+4), (*5), (^2), sqrt]
+
+-- FUNCTION COMPOSITION function
+(.~) :: (b -> c) -> (a -> b) -> a -> c
+f .~ g = \x -> f (g x)
+
+negSumOfTails = map (\xs -> negate(sum(tail xs)))
+negSumOfTails' = map (negate.sum.tail)
+
 -- Point-freestyler
 
 -- apparently this is how I write functions anyway...
