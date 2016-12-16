@@ -7,7 +7,9 @@ sentenceLength :: String -> Int
 sentenceLength = length.words
 
 wordCounts :: String -> [(String, Int)]
-wordCounts = map (\ws -> (head ws, length ws)) . group . sort' . words'
+wordCounts = map (\ws -> (head' ws, length' ws)) . group' . sort' . words'
+
+-- implementing all the above ...
 
 -- takeWhile and dropWhile
 dropWhile' :: (a -> Bool) -> [a] -> [a]
@@ -61,4 +63,25 @@ span'' p xs@(x:xs')
                   in (x : ys, zs)
     | otherwise = ([], xs)
 
+group' :: Eq a => [a] -> [[a]]
+group' []       = []
+group' xs@(x:_) = let (ys, zs) = span' (==x) xs
+                  in ys : group' zs
+
+group'' :: Eq a => [a] -> [[a]]
+group'' []       = []
+group'' xs@(x:_) = sameXs : group' restXs
+    where (sameXs, restXs) = span' (==x) xs
+
+length' :: [a] -> Int
+length' []     = 0
+length' (_:xs) = 1 + length' xs
+
+head' :: [a] -> a
+head' []    = error "empty list"
+head' (x:_) = x
+
+map' :: (a -> b) -> [a] -> [b]
+map' f []     = []
+map' f (x:xs) = f x : map' f xs
 
