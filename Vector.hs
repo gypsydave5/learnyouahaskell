@@ -1,4 +1,9 @@
-module Vector (Vector) where
+module Vector (
+    Vector,
+    vplus,
+    vmult,
+    dotprod
+  ) where
 
 data Vector a = Vector a a a
     deriving (Show)
