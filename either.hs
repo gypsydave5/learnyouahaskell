@@ -1,7 +1,7 @@
 -- data Either a b = Left a | Right b
 --     deriving (Eq, Ord, Read, Show)
 
--- Either is like a Maybe, but with more info for the error case
+-- Either is like a Maybe, but with more info for the error case (Left)
 
 import qualified Data.Map as Map
 
@@ -15,4 +15,16 @@ lockerLookup lockerNumber map = case Map.lookup lockerNumber map of
     Nothing -> Left $ "Locker " ++ show lockerNumber ++ " doesn't exist!"
     Just (state, code) ->  if state /= Taken
                            then Right code
-                           else Left $ "Locker " ++ show lockerNumber ++ " is already taken!"
+                           else Left $ "Locker "
+                             ++ show lockerNumber
+                             ++ " is already taken!"
+
+lockers :: LockerMap
+lockers = Map.fromList
+  [(100,(Taken, "ZD39I"))
+    ,(101,(Free, "JAH3I"))
+    ,(103,(Free, "IQSA9"))
+    ,(105,(Free, "QOTSA"))
+    ,(109,(Taken, "893JJ"))
+    ,(110,(Taken, "99292"))
+  ]
