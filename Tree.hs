@@ -1,3 +1,9 @@
+module Tree
+    (Tree (..) -- this bit gets the data constructors out .. all of 'em'
+    ,singleton
+    ,treeInsert
+    ,treeElem) where
+
 data Tree a = EmptyTree | Node a (Tree a) (Tree a)
     deriving (Show)
 
