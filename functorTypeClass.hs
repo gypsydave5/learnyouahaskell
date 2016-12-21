@@ -18,11 +18,34 @@ data Either' a b = Left' a | Right' b
 instance Functor (Either' a) where
     fmap f (Right' x) = Right' (f x)
     fmap f (Left' x)  = Left' x
-
 -- only map over the 'win' data type
 
 data AssocList k v = EmptyAssocList | AssocListItem k v (AssocList k v)
     deriving (Show, Eq, Ord, Read)
 
-insert :: (Eq k) => (AssocList k v) -> k -> v -> (AssocList k v)
-insert x k v = AssocListItem k v x
+insert :: (Eq k) => k -> v -> (AssocList k v) -> (AssocList k v)
+insert k v EmptyAssocList           = AssocListItem k v EmptyAssocList
+insert k v (AssocListItem k' v' ls) = if k' == k
+                                      then AssocListItem k v ls
+                                      else AssocListItem k' v' $ insert k v ls
+
+remove :: (Eq k) => k -> AssocList k v -> (AssocList k v)
+remove k EmptyAssocList           = EmptyAssocList
+remove k (AssocListItem k' v' ls) = if k' == k
+                                    then ls
+                                    else AssocListItem k' v' $ remove  k ls
+
+get :: (Eq k) => k -> AssocList k v -> Maybe v
+get k EmptyAssocList          = Nothing
+get k (AssocListItem k' v ls) = if k' == k
+                                then Just v
+                                else get k ls
+
+-- data is applied functions; functions are uninitialized data...
+-- there is no data; there are no functions; they are all types and the same
+
+instance Functor (AssocList k) where
+    fmap f EmptyAssocList = EmptyAssocList
+    fmap f (AssocListItem k v ls) = AssocListItem k (f v) $ fmap f ls
+
+
