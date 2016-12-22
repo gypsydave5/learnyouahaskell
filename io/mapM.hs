@@ -1,8 +1,13 @@
 main = do
-    mapM' putStrLn ["First line", "Second line"]
+    mapM putStrLn ["First line", "Second line"]
 
+-- no idea how these work...
 mapM'
-    :: (Functor f, Monad m)
-    => (a -> b) -> f a -> m (f b)
-mapM' f xs = do
-    return $ fmap f xs
+    :: (Traversable f, Functor f, Monad m)
+    => (a -> m b) -> f a -> m (f b)
+mapM' f = sequence . fmap f
+
+mapM_'
+    :: (Foldable f, Monad m)
+    => (a -> m b) -> f a -> m ()
+mapM_' f = foldr ((>>) . f) (return ())
