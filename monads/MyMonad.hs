@@ -1,3 +1,4 @@
+module MyMonad (Monad'(..)) where
 -- the pattern for a monad is given by the bind function
 -- the bind function applies a function that takes a normal value
 -- and returns a lifted (monadic) value, to a lifted (monadic) value,
